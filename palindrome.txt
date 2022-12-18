@@ -1,0 +1,107 @@
+
+#include<stdlib.h>
+#include <stdio.h>
+struct node
+{
+    int data;
+    struct node*add;
+};
+struct node*headptr=NULL;
+struct node*insert(int n)
+{
+    struct node*flag;
+    int d,d1;
+    printf("Enter the 1 Data:\n");
+    scanf("%d",&d);
+    flag=(struct node*)malloc(sizeof(struct node));
+    flag->data=d;
+    flag->add=NULL;
+    if(headptr==NULL)
+    {
+        headptr=flag;
+    }
+    int i;
+    for(i=2;i<=n;i++)
+    {
+    struct node*flag1;
+    printf("Enter the %d Data:\n",i);
+    scanf("%d",&d1);
+    flag1=(struct node*)malloc(sizeof(struct node));
+    flag1->data=d1;
+    flag1->add=NULL;
+    flag->add=flag1;
+    flag=flag->add;
+    }
+}
+void print()
+{
+    struct node*s;
+    s=headptr;
+    printf("Data in the list:\n");
+    while(s!=NULL)
+    {
+        
+        printf("%d ",s->data);
+        s=s->add;
+    }
+    printf("\n\n");
+}
+struct node*mid()
+{
+    struct node*a=headptr;
+    struct node*b=headptr;
+    while(b!=NULL && b->add!=NULL && b->add->add!=NULL)
+    {
+        a=a->add;
+        b=b->add->add;
+    }
+   return a;
+}
+struct node*mid_head=NULL;
+struct node*reverse(struct node*m)
+{
+    struct node*temp1=NULL;
+    struct node*temp2=NULL;
+    while(m!=NULL)
+    {
+        temp2=m->add;
+        m->add=temp1;
+        temp1=m;
+        m=temp2;
+    }
+   return temp1;
+}
+struct node*palin()
+{
+    int no=0;
+    struct node*m=mid();
+    struct node*l=reverse(m);
+    struct node*s=headptr;
+    while(l!=NULL)
+    {
+        if(l->data!=s->data)
+        {
+           no++;
+        }
+        l=l->add;
+        s=s->add;
+    }
+    if(no==0)
+    {
+        printf("It is Palindrome");
+    }
+    else
+    {
+        printf("It is not Palindrome");
+    }
+}
+
+int main()
+{
+    int n;
+    printf("Enter no. of nodes:\n");
+    scanf("%d",&n);
+    insert(n);
+    print();
+    palin();
+}
