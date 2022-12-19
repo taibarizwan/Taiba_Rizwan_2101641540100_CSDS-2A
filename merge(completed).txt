@@ -1,0 +1,118 @@
+#include<stdlib.h>
+#include <stdio.h>
+struct node
+{
+    int data;
+    struct node*add;
+};
+struct node*head1=NULL;
+struct node*head2=NULL;
+struct node*head3=NULL;
+struct node*insert_end(struct node*head,int n)
+{
+	 
+	 int da;
+	 struct node *flag=(struct node *)malloc(sizeof(struct node));
+	 printf("Enter the data of 1 node : ");
+	 scanf("%d",&da);
+	 flag->data=da;
+	 flag->add=NULL;
+     if(head==NULL)
+     {
+     	head=flag;
+	 }
+	 int i;
+	 for(i=2;i<=n;i++)
+	 {
+	  int da1;
+	  struct node*flag1=(struct node*)malloc(sizeof(struct node));
+	  printf("Enter the data of %d node : ",i);
+	  scanf("%d",&da1);
+	  flag1->data=da1;
+	  flag1->add=NULL;
+	  flag->add=flag1;
+	  flag=flag->add;
+	 }
+	 return head;
+}
+
+struct node*merge(struct node*head1,struct node*head2)
+{
+    if(head1==NULL)
+    {
+        return head2;
+    }
+    if(head2==NULL)
+    {
+        return head1;
+    }
+    struct node*ans;
+    struct node*s1=head1;
+    struct node*s2=head2;
+        if(s1->data < s2->data)
+        {
+            ans=s1;
+            s1=s1->add;
+        }
+        else
+        {
+            ans=s2;
+            s2=s2->add;
+        }
+    struct node*h=ans;
+    while(s1!=NULL && s2!=NULL)
+    {
+        if(s1->data < s2->data)
+        {
+            h->add=s1;
+            s1=s1->add;
+        }
+        else
+        {
+            h->add=s2;
+            s2=s2->add;
+        }
+        h=h->add;
+    }
+    while(s1!=NULL)
+    {
+        h->add=s1;
+        s1=s1->add;
+        h=h->add;
+    }
+    while(s2!=NULL)
+    {
+       h->add=s2;
+        s2=s2->add;
+        h=h->add;
+    }
+    return ans;
+}
+
+void print(struct node*h)
+{
+	struct node*s;
+		printf("Data in the list : \n");
+		s=h;
+		while(s!=NULL)
+		{
+			
+			printf("%d  ",s->data);
+			s=s->add;
+		}
+	 printf("\n\n");
+	
+}
+
+ 
+int main()
+{
+    int m,n;
+    scanf("%d %d",&n,&m); 
+    head1=insert_end(head1,n);
+    print(head1);
+    head2=insert_end(head2,m);
+    print(head2);
+    head3=merge(head1,head2);
+    print(head3);
+}
